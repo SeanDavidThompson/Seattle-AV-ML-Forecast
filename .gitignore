@@ -1,0 +1,53 @@
+# ---- R / RStudio -----------------------------------------------------------
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj.user
+.Rapp.history
+
+# ---- renv (if you adopt it later) ------------------------------------------
+renv/library/
+renv/local/
+renv/cellar/
+renv/lock/
+renv/python/
+renv/staging/
+
+# ---- OS cruft --------------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Editor / IDE ----------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*~
+
+# ---- Model binaries (large, regeneratable) ---------------------------------
+data/model/*.rds
+data/cache/*.rds
+
+# ---- Raw KCA parcel data (download from KCA, not redistributed) ------------
+data/kca/**/*.csv
+data/kca/**/*.zip
+
+# ---- Licensed third-party data (do not commit) -----------------------------
+data/costar/*.csv
+data/costar/*.xlsx
+data/nwmls/*.xlsx
+data/oerf/*.xlsx
+
+# ---- Intermediate wrangled outputs -----------------------------------------
+data/wrangled/*.csv
+data/wrangled/*.rds
+
+# ---- Forecast outputs (regeneratable) --------------------------------------
+data/outputs/*.csv
+OERF_*.csv
+
+# ---- Keep folder structure (placeholders) ----------------------------------
+!data/kca/**/kca_extract
+!data/**/.gitkeep
+!data/**/README.md
