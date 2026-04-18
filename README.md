@@ -2,11 +2,11 @@
 
 A parcel-level machine learning pipeline that forecasts Seattle's assessed value (AV) tax base from 2026 through 2031. This repository contains the code supporting the City of Seattle Office of Economic and Revenue Forecasts (OERF) April 2026 forecast.
 
-> **Note on scope:** This is an earlier version of the pipeline, from before the commercial track was split into valuation-based subgroups (Major Office, Commercial Waterfront, Industrial Specialty, etc.). The commercial results here come from a single pooled LightGBM model and, in production, were cross-checked against a CoStar-based aggregate approach. The current production pipeline uses subgroup-specific models. See [Known limitations](#known-limitations) for detail.
+> **Note on scope:** This is an earlier version of the pipeline, from before the commercial track was split into valuation-based subgroups (Major Office, Retail, Industrial, etc.). The commercial results here come from a single pooled LightGBM model and, in production, were cross-checked against a CoStar-based aggregate approach. The current production pipeline uses subgroup-specific models.
 
 ## What it does
 
-Given the King County Assessor (KCA) parcel panel, a set of economic scenario inputs, NWMLS housing market forecasts, CoStar commercial rents, and building permit data, the pipeline produces forecasted total assessed value for Seattle through 2031 under three macro scenarios (baseline, optimistic, pessimistic).
+Given the King County Assessor (KCA) parcel panel, a set of OERF regional and economic scenario inputs, NWMLS housing market forecasts, CoStar commercial rents, and building permit data, the pipeline produces forecasted total assessed value for Seattle through 2031 under three macro scenarios (baseline, optimistic, pessimistic).
 
 The forecast is parcel-level: each of roughly 250,000 Seattle parcels is individually predicted year by year, then aggregated. Three property tracks run in parallel:
 
@@ -18,7 +18,7 @@ A fourth component, new construction, is forecasted separately in `scripts/05_ne
 
 ## Method in one paragraph
 
-For each property track, the pipeline trains two LightGBM models: a *level* model that predicts the log of assessed value, and a *delta* model that predicts the year-over-year log change. These are combined in a sequential recursive forecast — the 2026 prediction feeds into the features used for 2027, and so on through 2031. Scenario differentiation enters through the economic panel (NWMLS median prices, inventory, closed sales; BLS/BEA macro inputs) and through CoStar quarterly aggregates for commercial. The final output is anchored to the certified 2026 total AV (~$303B) via share imputation, so forecast growth rates are applied to the certified base rather than to the model's own implied 2026 total.
+For each property track, the pipeline trains two LightGBM models: a *level* model that predicts the log of assessed value, and a *delta* model that predicts the year-over-year log change. These are combined in a sequential recursive forecast — the 2026 prediction feeds into the features used for 2027, and so on through 2031. Scenario differentiation enters through the economic panel (NWMLS median prices, inventory, closed sales; OERF Regional Model) and through CoStar quarterly aggregates for commercial. The final output is anchored to the certified 2026 total AV (~$303B) via share imputation, so forecast growth rates are applied to the certified base rather than to the model's own implied 2026 total.
 
 ## Repository structure
 
